@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Trails</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+
+<nav>
+    <div class="nav-inside">
+        <div>
+            <button class="nav-elements">about</button>
+            <button class="nav-elements">login</button>
+        </div>
+    </div>
+</nav>
+
+<div class="Content-holder">
+    <div class="game-container" id="gameContainer">
+        <div class="stats-bar" id="stats">
+            Wins: <span id="wins">0</span>  
+            Losses: <span id="losses">0</span> | 
+            Top Streak: <span id="streak">0</span>
+        </div>
+        <div class="inputs-container">
+            <div class="input-row">
+                <div class="input-group">
+                    <input type="number" min="1" max="9">
+                    <input type="number" min="1" max="9">
+                    <input type="number" min="1" max="9">
+                </div>
+                <div class="color-indicators">
+                    <div class="color-indicator"></div>
+                    <div class="color-indicator"></div>
+                    <div class="color-indicator"></div>
+                </div>
+            </div>
+        </div>
+        <button class="submit-btn" onclick="handleSubmit()">Enter</button>
+        <button class="reset-btn"  onclick="handleresetgame()">Reset Game</button>
+    </div>
+</div>
+
+<script src="page.js"></script>
+</body>
+</html>
