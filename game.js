@@ -1,11 +1,31 @@
 
 let rowCount = 1;
-let wins = 0;
-let losses = 0;
-let streak =  0;
+
+let wins = parseInt(document.getElementById('wins').innerText) || 0;
+let losses = parseInt(document.getElementById('losses').innerText) || 0;
+let streak = parseInt(document.getElementById('streak').innerText) || 0;
+
+console.log("Game loaded with Stats:", wins, losses, streak);
+
 let topStreak =  0;
 
 let targetDigits = generateTargetDigits();
+
+function syncStats(result) {
+    // result should be 'win' or 'loss'
+    const formData = new FormData();
+    formData.append('result', result);
+
+    fetch('game.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log("Database Sync:", data);
+    })
+    .catch(error => console.error('Error syncing stats:', error));
+}
 
 // Generates 3 numbers to match and returns the array
 function generateTargetDigits() {
@@ -22,7 +42,7 @@ function generateTargetDigits() {
 function updateStats() {
     document.getElementById('wins').innerText = wins;
     document.getElementById('losses').innerText = losses;
-    document.getElementById('streak').innerText = topStreak;
+    document.getElementById('streak').innerText = streak;
 }
 
 //THE BIG PROCESS
@@ -71,6 +91,7 @@ function handleSubmit() {
         gameend = true;
         topStreak = Math.max(topStreak, streak);
         updateStats();
+        syncStats('win');
         document.getElementsByClassName('submit-btn')[0].disabled=true;
         alert("YOU WON\nThe Number : " + targetDigits.join(" "));
         //new
@@ -83,6 +104,7 @@ function handleSubmit() {
             losses++;
             streak = 0;
             updateStats();
+            syncStats('loss');
             document.getElementsByClassName('submit-btn')[0].disabled=true;
             return;
         }
@@ -142,10 +164,12 @@ function resetGame() {
 function handleresetgame(){
     if(document.getElementsByClassName('input-row').length > 1 && gameend==false){
         losses++;
+        streak = 0;
+        console.log("start loss sync");
+        syncStats('loss');
+        console.log("end loss sync");
         updateStats();
     }
     resetGame();
 }
 
-
-updateStats();
